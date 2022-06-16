@@ -1,12 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
 # To fix errors like 
 # "syntax error near unexpected token `$'{\r''" run
 # sed -i 's/\r//' setup.sh
+# or change line endings to Unix(LF)
 
-############## WSL!!
+############## WSL only:
 # wsl
-
 # cd /tmp 
 # wget --content-disposition "https://gist.githubusercontent.com/djfdyuruiry/6720faa3f9fc59bfdf6284ee1f41f950/raw/952347f805045ba0e6ef7868b18f4a9a8dd2e47a/install-sg.sh" 
 # chmod +x /tmp/install-sg.sh 
@@ -20,8 +20,10 @@
 
 # To execute, run
 # cd /tmp
-# wget --content-disposition "https://github.com/ZubashenkoRuslan/openHAB/blob/main/post_install.sh"
-# sudo bash ./post_install.sh
+# wget --content-disposition "https://raw.githubusercontent.com/ZubashenkoRuslan/openHAB/main/post_install.sh"
+# chmod +x /tmp/post_install.sh 
+# sudo /tmp/post_install.sh 
+# sudo rm /tmp/post_install.sh
 
 
 function test_colors() {
@@ -104,30 +106,33 @@ directory mask=0777" >> /etc/samba/smb.conf
 
 function install_mosquitto(){
 	sudo apt-get update
-	sudo apt-get install mosquitto -y
+	sudo apt-get install mosquitto mosquitto-clients -y
 	sudo systemctl enable mosquitto
 	sudo systemctl start mosquitto
 	
 	# Possible error, no problem:
 	ufw allow 1883/tcp	
-	ufw allow 2883/tcp	
+	ufw allow 5266/tcp	
 	
-	read -p "Mosquitto user name : " mosUser
-	sudo mosquitto_passwd -c /etc/mosquitto/passwd $mosUser
+	read -p "Mosquitto 1883 user name : " mosUser
+	sudo mosquitto_passwd -c /etc/mosquitto/1883_pass $mosUser
+	read -p "Mosquitto 5266 user name : " mosUser
+	sudo mosquitto_passwd -c /etc/mosquitto/5266_pass $mosUser
 	echo "
 per_listener_settings true
 
 listener 1883
 allow_anonymous false
-password_file /etc/mosquitto/passwd
+password_file /etc/mosquitto/1883_pass
 
-listener 2883
+listener 5266
 allow_anonymous false
-password_file /etc/mosquitto/passwd"  >> /etc/mosquitto/mosquitto.conf;
+password_file /etc/mosquitto/5266_pass"  >> /etc/mosquitto/mosquitto.conf;
 	
 	# systemctl restart mosquitto
 	write "Reload mosquitto config:"
 	ps aux | grep 'mosquit+' | awk '{print $2}' | xargs sudo kill -HUP
+	sudo systemctl restart mosquitto
 }
 
 #############################################################################################
