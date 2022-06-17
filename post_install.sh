@@ -135,15 +135,30 @@ password_file /etc/mosquitto/5266_pass"  >> /etc/mosquitto/mosquitto.conf;
 	sudo systemctl restart mosquitto
 }
 
+function init_git_repo(){
+	local path=$1
+	write "$path :"
+	cd $path
+	git init
+	git add .
+	git c -m 'init'
+}
+
 #############################################################################################
 function main(){
-#test_colors
+	#test_colors
 
-write 'Share Folders:'
-install_samba
+	write 'Share Folders:'
+	install_samba
 
-write 'Install MQTT:'
-install_mosquitto
+	write 'Install MQTT:'
+	install_mosquitto
+
+	write 'Create GIT repo on openHAB config:'
+	init_git_repo '/etc/openhab'
+	init_git_repo '/var/lib/openhab'
+	init_git_repo '/var/lib/openhab'
+	init_git_repo '/opt/openhab'
 }
 
 main
