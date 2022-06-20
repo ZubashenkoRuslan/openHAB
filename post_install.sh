@@ -137,11 +137,16 @@ password_file /etc/mosquitto/5266_pass"  >> /etc/mosquitto/mosquitto.conf;
 
 function init_git_repo(){
 	local path=$1
+	
 	write "$path :"
+	read -p 'GIT user email : ' gitUserEmail
+	read -p 'GIT user name : ' gitUserName
+	git config --local user.email $gitUserEmail
+	git config --local user.name $gitUserName
 	cd $path
 	git init
 	git add .
-	git c -m 'init'
+	git commit -m 'init'
 }
 
 #############################################################################################
@@ -155,10 +160,9 @@ function main(){
 	install_mosquitto
 
 	write 'Create GIT repo on openHAB config:'
-	init_git_repo '/etc/openhab'
-	init_git_repo '/var/lib/openhab'
-	init_git_repo '/var/lib/openhab'
-	init_git_repo '/opt/openhab'
+	init_git_repo '/etc/openhab2'
+	init_git_repo '/var/lib/openhab2'
+	init_git_repo '/usr/share/openhab2'
 }
 
 main
