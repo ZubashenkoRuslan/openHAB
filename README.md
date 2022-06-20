@@ -75,15 +75,26 @@ password_file /etc/mosquitto/passwd"  >> /etc/mosquitto/mosquitto.conf;
 
 
 ## OPENNAB-CLI Commands:
-
-openhab-cli backup
-openhab-cli restore <archive file>
+	openhab-cli backup
+	openhab-cli restore <archive file>
 
 # Temperature monitoring:
-watch -c -d -n 1  -- 'vcgencmd measure_temp'
+	watch -c -d -n 1  -- 'vcgencmd measure_temp'
 
 # mosquitto:
-mosquitto_pub -t sensors/temperature -u 'mosUsr2' -P 'mosPwd2' -p 5266 -m 12 -q 1 -r 10
-mosquitto_sub -u 'mosUsr2' -P 'mosPwd2' -p 5266  -t sensors/temperature -q 1
+	mosquitto_pub -t sensors/temperature -u 'mosUsr2' -P 'mosPwd2' -p 5266 -m 12 -q 1 -r 10	
+	mosquitto_sub -u 'mosUsr2' -P 'mosPwd2' -p 5266  -t sensors/temperature -q 1
+
+
+## Addind MQTT binding to the openHAB:
+1. [PaperUI -> Add-ons](http://openhabian:8080/paperui/index.html#/extensions) -> BINDINGS tab;
+2. Search *MQTT Binding*, install
+3. [Inbox](http://openhabian:8080/paperui/index.html#/inbox/search) -> press '+' -> MQTT Binding -> Add Manually -> MQTT Broker
+	Broker Hostname/IP
+	Broker Port
+	Username
+	Password
+4. Press '✔' on the top of the page to save settings
+5. Shoulb be like this: ![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
 
 
