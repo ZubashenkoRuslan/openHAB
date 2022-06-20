@@ -95,6 +95,29 @@ password_file /etc/mosquitto/passwd"  >> /etc/mosquitto/mosquitto.conf;
 	Username
 	Password
 4. Press '✔' on the top of the page to save settings
-5. Shoulb be like this: ![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
+5. Should be like this:
+	
+	![](https://raw.githubusercontent.com/ZubashenkoRuslan/openHAB/main/img/mqtt_broker_added.png)
 
-
+## Add Thing:
+1. [Inbox](http://openhabian:8080/paperui/index.html#/inbox/search) -> press '➕' -> MQTT Binding -> Add Manually -> Generic MQTT Thing
+2. Bridge Selection -> configured MQTT Broker - mqtt:broker:0a10a09e -> ✔
+3. openHAB-conf/items/demo.items: 
+	```
+	Switch TestMQTT "Test item" {channel="mqtt:topic:72beba7e:testlight1"}
+	Dimmer TestDimm "Test Dimmer" {channel="mqtt:topic:72beba7e:testdimm1"}
+	```
+4. openHAB-conf/sitemaps/demo.sitemap:
+	```
+	sitemap demo label="Demo Label" {
+	    Frame label="First frame" icon="./icons/my_light.svg" {
+		Switch item=TestMQTT
+	    }
+	    Frame label="Second frame" {
+		Slider item=TestDimm
+	    }
+	}
+	```
+5. Check changes [here](http://openhabian:8080/basicui/app?sitemap=demo)
+6. Go to [things](http://openhabian:8080/paperui/index.html#/configuration/things) -> Test MQTT thing -> Channels -> ➕
+7. 
