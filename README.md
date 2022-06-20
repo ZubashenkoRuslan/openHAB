@@ -1,4 +1,4 @@
-# openHAB
+## openHAB
 
 1. Download openhab image from https://github.com/openhab/openhabian/releases
 2. RaspberryPiImagerForWindows_1.7.2 or balenaEtcher-Portable-1.7.9 -> write image to sd card
@@ -33,8 +33,8 @@ sudo service smbd restart
 	# ip addr | grep eth0 | grep inet
 	
 6. Install MQTT:
-	# System has not been booted with systemd as init system (PID 1). Can't operate. 
-	## WSL SOLUTION:
+	### System has not been booted with systemd as init system (PID 1). Can't operate. 
+	### WSL SOLUTION:
 	https://askubuntu.com/questions/1379425/system-has-not-been-booted-with-systemd-as-init-system-pid-1-cant-operate
 	1. Run:
 	sudo -b unshare --pid --fork --mount-proc /lib/systemd/systemd --system-unit=basic.target
@@ -52,7 +52,7 @@ sudo service smbd restart
 	systemctl enable mosquitto
 	systemctl start mosquitto
 	
-	# Possible error, no problem:
+	Possible error, no problem:
 	ufw allow 1883/tcp	
 	
 	sudo mosquitto_passwd -c /etc/mosquitto/passwd mosUser
