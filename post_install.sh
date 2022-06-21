@@ -107,32 +107,31 @@ directory mask=0777" >> /etc/samba/smb.conf
 function install_mosquitto(){
 	sudo apt-get update
 	sudo apt-get install mosquitto mosquitto-clients -y
-	sudo systemctl enable mosquitto
-	sudo systemctl start mosquitto
-	
+		
 	# Possible error, no problem:
 	ufw allow 1883/tcp	
-	ufw allow 5266/tcp	
+	# ufw allow 5266/tcp	
 	
 	read -p "Mosquitto 1883 user name : " mosUser
-	sudo mosquitto_passwd -c /etc/mosquitto/1883_pass $mosUser
-	read -p "Mosquitto 5266 user name : " mosUser
-	sudo mosquitto_passwd -c /etc/mosquitto/5266_pass $mosUser
+	sudo mosquitto_passwd -c /etc/mosquitto/pass_1883 $mosUser
+	# read -p "Mosquitto 5266 user name : " mosUser5266
+	# sudo mosquitto_passwd -c /etc/mosquitto/pass_5266 $mosUser5266
 	echo "
 per_listener_settings true
 
 listener 1883
 allow_anonymous false
-password_file /etc/mosquitto/1883_pass
+password_file /etc/mosquitto/pass_1883
 
-listener 5266
-allow_anonymous false
-password_file /etc/mosquitto/5266_pass"  >> /etc/mosquitto/mosquitto.conf;
+# listener 5266
+# allow_anonymous false
+# password_file /etc/mosquitto/pass_5266"  >> /etc/mosquitto/mosquitto.conf;
 	
-	# systemctl restart mosquitto
 	write "Reload mosquitto config:"
 	ps aux | grep 'mosquit+' | awk '{print $2}' | xargs sudo kill -HUP
-	sudo systemctl restart mosquitto
+	
+	sudo systemctl enable mosquitto
+	sudo systemctl start mosquitto
 }
 
 function init_git_repo(){
@@ -161,8 +160,8 @@ function main(){
 
 	write 'Create GIT repo on openHAB config:'
 	init_git_repo '/etc/openhab2'
-	init_git_repo '/var/lib/openhab2'
-	init_git_repo '/usr/share/openhab2'
+	# init_git_repo '/var/lib/openhab2'
+	# init_git_repo '/usr/share/openhab2'
 }
 
 main
