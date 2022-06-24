@@ -80,10 +80,15 @@ password_file /etc/mosquitto/passwd"  >> /etc/mosquitto/mosquitto.conf;
 
 # Temperature monitoring:
 	watch -c -d -n 1  -- 'vcgencmd measure_temp'
+	watch -n 5 '(vcgencmd measure_temp | sed s/temp=//g | cut -c 1-4 ) | xargs -0 mosquitto_pub -t /sensors/temperature/in -u 'mosU' -P 'mosP' -p 1883 -q 1 -m $1'
+	let i=0; while [ $i -le 5 ]; do vcgencmd measure_clock arm; vcgencmd measure_temp; sleep 5; ((i++)); done & ./cpuburn-a53
+	let i=0; while [ $i -le 5 ]; do vcgencmd measure_clock arm; vcgencmd measure_temp | xargs -0 mosquitto_pub -t /sensors/temperature/in -u 'mosU' -P 'mosP' -p 1883 -q 1 -m $1; sleep 5; ((i++)); done & ./cpuburn-a53
 
 # mosquitto:
 	mosquitto_pub -t sensors/temperature -u 'mosUsr2' -P 'mosPwd2' -p 5266 -m 12 -q 1 -r 10	
 	mosquitto_sub -u 'mosUsr2' -P 'mosPwd2' -p 5266  -t sensors/temperature -q 1
+	watch 'vcgencmd measure_temp | xargs -0 mosquitto_pub -t /sensors/temperature/in -u 'mosU' -P 'mosP' -p 1883 -q 1 -m $1'
+
 
 
 ## Addind MQTT binding to the openHAB:
