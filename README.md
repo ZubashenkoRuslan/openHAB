@@ -127,7 +127,7 @@ password_file /etc/mosquitto/passwd"  >> /etc/mosquitto/mosquitto.conf;
 6. Go to [things](http://openhabian:8080/paperui/index.html#/configuration/things) -> Test MQTT thing -> Channels -> ➕
 7. 
 
-## How to Set up WiFi on Your Raspberry Pi Without a Monitor:
+## How to Set up WiFi on Your Raspberry Pi Without a Monitor ([from here](https://howchoo.com/g/ndy1zte2yjn/how-to-set-up-wifi-on-your-raspberry-pi-without-ethernet)):
 1. Put the Raspberry Pi OS SD card into your computer
 2. Navigate to the boot directory
 3. Add your **wpa_supplicant.conf** file with content:
