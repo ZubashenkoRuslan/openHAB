@@ -20,7 +20,8 @@
 	Setup settings.
 		Note: LWT Connect Message, LWT Disconnect Message, Enabled -> checked!!!
 		
-	
+	http://192.168.4.1/setup
+	WIFI password: configesp
 
 
 # Useful links:
