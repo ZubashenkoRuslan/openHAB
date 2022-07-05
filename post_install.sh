@@ -150,16 +150,16 @@ function init_git_repo(){
 
 #############################################################################################
 function main(){
-	#test_colors
+	# test_colors
 
-	write 'Share Folders:'
-	install_samba
+	# write 'Share Folders:'
+	# install_samba
 
 	write 'Install MQTT:'
 	install_mosquitto
 
-	write 'Create GIT repo on openHAB config:'
-	init_git_repo '/etc/openhab2'
+	# write 'Create GIT repo on openHAB config:'
+	# init_git_repo '/etc/openhab2'
 	# init_git_repo '/var/lib/openhab2'
 	# init_git_repo '/usr/share/openhab2'
 }

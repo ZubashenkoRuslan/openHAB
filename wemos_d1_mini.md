@@ -2,7 +2,7 @@
 1. Flash the Wemos D1 mini with tools from #Useful links
 2. Go to IP on Browser 
 	User: admin
-	Pass: <pass from firmware>
+	Pass: <pass for firmware>
 3. Config -> NONE to change if default flash tool used
 4. Hardware -> 
 	GPIO → LED: -> GPIO-2 (LED displays WIFI connection status)
